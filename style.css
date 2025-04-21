@@ -1,0 +1,277 @@
+/* По умолчанию */
+.list-group-item.active {
+  border-color: #198754;
+  background-color: #198754;
+  color: #fff;
+}
+.form-control:focus {
+  border-color: rgb(25, 135, 84, 0.3);
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.3);
+}
+.alert{
+  color: red;
+}
+section{
+  min-height: 100vh;
+}
+
+/* Шапка */
+@media (max-width: 990px) {
+  header .right {
+    margin-top: 20px;
+  }
+  header .right a{
+    margin: 3px;
+  }
+  header .btn-info {
+    margin-bottom: 10px;
+  }
+}
+header .btn-info {
+  margin-right: 5px;
+}
+
+/* Главная */
+.index{
+  padding: 100px 0;
+}
+.index .carousel {
+  margin: 25px 0;
+}
+.index .carousel img {
+  max-height: 400px;
+  object-fit: contain;
+  width: 100%;
+}
+
+/* Категории */
+.categories {
+  padding: 50px 0;
+}
+.categories a {
+  color: #000000;
+  text-decoration: none;
+}
+.categories .subcategories {
+  padding: 30px 10px;
+}
+
+/* Товары */
+.products {
+  padding: 50px 0;
+}
+@media (max-width: 768px) {
+  .products .sort .btn-group {
+    flex-wrap: wrap;
+  }
+  .products .sort .btn-group .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+.products .dropdown-item:focus {
+  background-color: #198754;
+  color: #fff;
+}
+.products .subcategories {
+  padding: 30px 0;
+}
+.products .left {
+  margin: 30px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.products .left a {
+  text-decoration: none;
+}
+.products .left .card {
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.products .left .card img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+.products .left .card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.products .left .card-body .btn {
+  margin-top: 20px;
+}
+.products .left .card-title, .card-text{
+  color: #000000;
+}
+.products .right .btn-danger{
+  width: 100%;
+  margin-bottom: 50px;
+}
+.page-link {
+  color: #000000;
+}
+.page-link:hover{
+  border: solid 1px #198754;
+  background-color: #198754;
+  color: #ffffff;
+}
+.page-link:focus {
+  color: #ffffff;
+  background-color: #198754;
+  border-color: rgb(25, 135, 84, 0.3);
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.3);
+}
+.pagination > .active > a {
+  background-color: #198754 !important;
+  border: solid 1px #198754 !important;
+  color: #ffffff;
+}
+@media (max-width: 768px) {
+  .products .left {
+    justify-content: center;
+  }
+}
+
+/* Страница товара */
+.product{
+  padding: 100px 20px;
+}
+.product .right{
+  margin-top: 20px;
+}
+.product .right p {
+  word-wrap: break-word;
+}
+
+/* Корзина */
+.cart{
+  padding: 100px 0;
+}
+
+/* Вход */
+.signin{
+  padding: 50px 0;
+}
+.signin .form-group, .last {
+  margin-bottom: 20px;
+}
+.signin form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Регистрация */
+.signup{
+  padding: 50px 0;
+}
+.signup .form-group, .last {
+  margin-bottom: 20px;
+}
+.signup form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Личный кабинет */
+.account {
+  padding: 50px 0;
+}
+.account .table {
+  margin-bottom: 20px;
+}
+.account .form-group {
+  margin-bottom: 20px;
+}
+.account .right {
+  float: right;
+}
+
+/* Страница заказа */
+.order {
+  padding: 50px 0;
+}
+.order .table {
+  margin-bottom: 20px;
+}
+.order .bottom a {
+  margin-left: 20px;
+  float: right;
+}
+
+/* Все заказы */
+.orders{
+  padding: 100px 0;
+}
+.orders .dropdown .btn {
+  width: 200px
+}
+
+/* Добавление продукта */
+.add_product{
+  padding: 100px 0;
+}
+.add_product{
+  padding: 100px 0;
+}
+.add_product .form-group,.last {
+  margin-bottom: 20px;
+}
+.add_product form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.add_product select {
+  margin-bottom: 20px;
+}
+
+/* Добавление категории */
+.add_category{
+  padding: 100px 0;
+}
+.add_category.form-group,.last {
+  margin-bottom: 20px;
+}
+.add_category form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Добавление подкатегории */
+.add_subcategory{
+  padding: 100px 0;
+}
+.add_subcategory.form-group,.last {
+  margin-bottom: 20px;
+}
+.add_subcategory form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.add_subcategory select {
+  margin-bottom: 20px;
+}
+
+/* Подвал */
+footer {
+    padding: 20px 0;
+    background-color: #cacaca;
+}
+footer a {
+  color: #777777;
+  text-decoration: none;
+}
+footer a:hover{
+  background-color: #ccc;
+  color: #333
+}
