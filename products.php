@@ -1,6 +1,14 @@
 <?php
     //Запускаем сессию
     session_start();
+    //Подключаемся к базе данных
+    require_once 'database.php';
+    
+    // Очистка фильтров
+    if (isset($_GET['clear_filter'])) {
+        unset($_SESSION['filter']);
+    }
+    
     //Получаем через запросы параметры фильтрации и кладём их в сессию
     if(isset($_POST['search']))
         $_SESSION['filter']['search'] = $_POST['search'];
@@ -8,8 +16,11 @@
         $_SESSION['filter']['sorting'] = $_GET['sorting'];
     if(isset($_GET['order']))
         $_SESSION['filter']['order'] = $_GET['order'];
-    if(isset($_GET['category']))
+    if(isset($_GET['category'])) {
         $_SESSION['filter']['category'] = $_GET['category'];
+        // Сбрасываем подкатегорию при смене категории
+        unset($_SESSION['filter']['subcategory']);
+    }
     if(isset($_GET['subcategory']))
         $_SESSION['filter']['subcategory'] = $_GET['subcategory'];
     if(isset($_GET['number']))
@@ -35,19 +46,19 @@
             <div class="col-md-9 d-flex justify-content-center sort">
                 <div class="btn-group w-100">
                     <a class="btn <?= ($_SESSION['filter']['sorting']=='name' and $_SESSION['filter']['order']=='asc')?'btn-success':'btn-outline-success' ?>" 
-                    href="events/products/filter.php?sorting=name&order=asc">
+                    href="page.php?page=products&sorting=name&order=asc">
                         Название по возрастанию
                     </a>
                     <a class="btn <?= ($_SESSION['filter']['sorting']=='name' and $_SESSION['filter']['order']=='desc')?'btn-success':'btn-outline-success' ?>" 
-                    href="events/products/filter.php?sorting=name&order=desc">
+                    href="page.php?page=products&sorting=name&order=desc">
                         Название по убыванию
                     </a>
                     <a class="btn <?= ($_SESSION['filter']['sorting']=='price' and $_SESSION['filter']['order']=='asc')?'btn-success':'btn-outline-success' ?>" 
-                    href="events/products/filter.php?sorting=price&order=asc">
+                    href="page.php?page=products&sorting=price&order=asc">
                         Цена по возрастанию
                     </a>
                     <a class="btn <?= ($_SESSION['filter']['sorting']=='price' and $_SESSION['filter']['order']=='desc')?'btn-success':'btn-outline-success' ?>" 
-                    href="events/products/filter.php?sorting=price&order=desc">
+                    href="page.php?page=products&sorting=price&order=desc">
                         Цена по убыванию
                     </a>
                 </div>
@@ -59,10 +70,10 @@
                         Количество элементов на странице: <?= $_SESSION['filter']['per_page']?? 6 ?>
                     </button>
                     <ul class="dropdown-menu w-100 dropdown-menu-end">
-                        <li><a class="dropdown-item" href="events/products/filter.php?per_page=6">6</a></li>
-                        <li><a class="dropdown-item" href="events/products/filter.php?per_page=12">12</a></li>
-                        <li><a class="dropdown-item" href="events/products/filter.php?per_page=18">18</a></li>
-                        <li><a class="dropdown-item" href="events/products/filter.php?per_page=24">24</a></li>
+                        <li><a class="dropdown-item" href="page.php?page=products&per_page=6">6</a></li>
+                        <li><a class="dropdown-item" href="page.php?page=products&per_page=12">12</a></li>
+                        <li><a class="dropdown-item" href="page.php?page=products&per_page=18">18</a></li>
+                        <li><a class="dropdown-item" href="page.php?page=products&per_page=24">24</a></li>
                     </ul>
                 </div>
             </div>
@@ -76,22 +87,94 @@
                 $params = isset($_SESSION['filter']['sql_params']) ? $_SESSION['filter']['sql_params'] : [];
 
                 // Формируем SQL-запрос для получения товаров с учетом фильтров
-                $sql = "SELECT p.*, c.name as category_name, sc.name as subcategory_name 
+                $sql = "SELECT DISTINCT p.*, c.name as category_name, sc.name as subcategory_name 
                         FROM products p 
                         LEFT JOIN categories c ON p.id_category = c.id 
-                        LEFT JOIN subcategories sc ON p.id_subcategory = sc.id 
-                        $where_clause";
+                        LEFT JOIN products_subcategories ps ON p.id = ps.id_product
+                        LEFT JOIN subcategories sc ON ps.id_subcategory = sc.id";
 
-                // Подготавливаем и выполняем запрос
-                $stmt = $conn->prepare($sql);
-                if (!empty($params)) {
-                    $stmt->execute($params);
-                } else {
-                    $stmt->execute();
+                // Добавляем условия WHERE если они есть
+                if (!empty($where_clause)) {
+                    $sql .= " " . $where_clause;
                 }
-                $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                foreach ($products as $product) {
+                // Добавляем сортировку если она задана
+                if(isset($_SESSION['filter']['sorting']) && isset($_SESSION['filter']['order'])) {
+                    $sorting = $_SESSION['filter']['sorting'];
+                    $order = $_SESSION['filter']['order'];
+                    
+                    // Проверяем допустимые значения для сортировки
+                    $allowed_sorting = ['name', 'price'];
+                    $allowed_order = ['asc', 'desc'];
+                    
+                    if(in_array($sorting, $allowed_sorting) && in_array(strtolower($order), $allowed_order)) {
+                        $sql .= " ORDER BY p.$sorting " . strtoupper($order);
+                    }
+                }
+
+                // Выполняем запрос
+                if (!empty($params)) {
+                    // Подготавливаем запрос
+                    $stmt = $database->prepare($sql);
+                    if (!$stmt) {
+                        die("Ошибка подготовки запроса: " . $database->error);
+                    }
+                    
+                    // Привязываем параметры
+                    $types = str_repeat('i', count($params));
+                    $stmt->bind_param($types, ...$params);
+                    
+                    // Выполняем запрос
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $products = $result->fetch_all(MYSQLI_ASSOC);
+                } else {
+                    $result = $database->query($sql);
+                    if (!$result) {
+                        die("Ошибка запроса: " . $database->error);
+                    }
+                    $products = $result->fetch_all(MYSQLI_ASSOC);
+                }
+
+                // Получаем общее количество товаров для пагинации
+                $count_sql = "SELECT COUNT(DISTINCT p.id) as total FROM products p 
+                            LEFT JOIN categories c ON p.id_category = c.id 
+                            LEFT JOIN products_subcategories ps ON p.id = ps.id_product
+                            LEFT JOIN subcategories sc ON ps.id_subcategory = sc.id 
+                            $where_clause";
+                
+                if (!empty($params)) {
+                    $count_stmt = $database->prepare($count_sql);
+                    $count_stmt->bind_param($types, ...$params);
+                    $count_stmt->execute();
+                    $count_result = $count_stmt->get_result();
+                } else {
+                    $count_result = $database->query($count_sql);
+                }
+                
+                $total_products = $count_result->fetch_assoc()['total'];
+                $products_per_page = isset($_SESSION['filter']['per_page']) ? $_SESSION['filter']['per_page'] : 6;
+                $total_pages = $products_per_page > 0 ? ceil($total_products / $products_per_page) : 1;
+                $current_page = isset($_SESSION['filter']['number']) ? $_SESSION['filter']['number'] : 1;
+
+                // Добавляем LIMIT для пагинации
+                $offset = ($current_page - 1) * $products_per_page;
+                $sql .= " LIMIT $offset, $products_per_page";
+
+                // Повторно выполняем запрос с LIMIT
+                if (!empty($params)) {
+                    $stmt = $database->prepare($sql);
+                    $stmt->bind_param($types, ...$params);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $products = $result->fetch_all(MYSQLI_ASSOC);
+                } else {
+                    $result = $database->query($sql);
+                    $products = $result->fetch_all(MYSQLI_ASSOC);
+                }
+
+                if (!empty($products)) {
+                    foreach ($products as $product) {
                 ?>
                     <div class="card d-flex align-items-center" style="width: 18rem; cursor: pointer;" onclick="location.href='page.php?page=product&product=<?= $product['id'] ?>'">
                         <img src="<?= $product['image'] ?>" class="card-img-top" alt="Картинка товара">
@@ -117,7 +200,7 @@
                     $categories = $database->query("SELECT * FROM categories");
                     foreach ($categories as $category) {
                     ?>
-                        <a href="events/products/filter.php?category=<?= $category['id'] ?>" class="list-group-item list-group-item-action <?= ($category['id'] == $_SESSION['filter']['category']) ? 'active' : '' ?>">
+                        <a href="page.php?page=products&category=<?= $category['id'] ?>" class="list-group-item list-group-item-action <?= ($category['id'] == $_SESSION['filter']['category']) ? 'active' : '' ?>">
                             <?= $category['name'] ?>
                         </a>
                     <?php } ?>
@@ -141,7 +224,7 @@
                                 );
                                 foreach ($subcategories as $subcategory) {
                                 ?>
-                                    <a href="events/products/filter.php?subcategory=<?= $subcategory['id'] ?>" class="list-group-item list-group-item-action <?= ($subcategory['id'] == $_SESSION['filter']['subcategory']) ? 'active' : '' ?>">
+                                    <a href="page.php?page=products&subcategory=<?= $subcategory['id'] ?>" class="list-group-item list-group-item-action <?= ($subcategory['id'] == $_SESSION['filter']['subcategory']) ? 'active' : '' ?>">
                                         <?= $subcategory['name'] ?>
                                     </a>
                                 <?php } ?>
@@ -149,7 +232,7 @@
                         </div>
                     <?php } ?>
                 </div>
-                <a href="events/products/clear_filter.php" class="btn btn-danger">Очистить фильтры</a>
+                <a href="page.php?page=products&clear_filter=1" class="btn btn-danger">Очистить фильтры</a>
             </div>
         </div>
         <!-- Блок фильтрации по характеристикам -->
@@ -217,7 +300,7 @@
                         ?>
                         <!-- Кнопка "назад" -->
                         <li class="page-item">
-                            <a class="page-link" href="events/products/filter.php?number=<?= (isset($_SESSION['filter']['number']))?
+                            <a class="page-link" href="page.php?page=products&number=<?= (isset($_SESSION['filter']['number']))?
                             (($_SESSION['filter']['number']>1)?
                             $_SESSION['filter']['number'] - 1:
                             $_SESSION['filter']['number']):
@@ -236,7 +319,7 @@
                             ($_SESSION['filter']['number'] == $i)?'active':
                             ((!isset($_SESSION['filter']['number']) and $i==1)?'active':'') 
                             ?>">
-                                <a class="page-link" href="events/products/filter.php?number=<?= $i ?>"> 
+                                <a class="page-link" href="page.php?page=products&number=<?= $i ?>"> 
                                     <?= $i ?> 
                                 </a>
                             </li>
@@ -251,7 +334,7 @@
                             ($_SESSION['filter']['number'] == $i)?'active':
                             ((!isset($_SESSION['filter']['number']) and $i==1)?'active':'') 
                             ?>">
-                                <a class="page-link" href="events/products/filter.php?number=<?= $i ?>"> 
+                                <a class="page-link" href="page.php?page=products&number=<?= $i ?>"> 
                                     <?= $i ?> 
                                 </a>
                             </li>
@@ -271,7 +354,7 @@
                             ($_SESSION['filter']['number'] == $i)?'active':
                             ((!isset($_SESSION['filter']['number']) and $i==1)?'active':'') 
                             ?>">
-                                <a class="page-link" href="events/products/filter.php?number=<?= $i ?>"> 
+                                <a class="page-link" href="page.php?page=products&number=<?= $i ?>"> 
                                     <?= $i ?> 
                                 </a>
                             </li>
@@ -292,7 +375,7 @@
                             ($_SESSION['filter']['number'] == $i)?'active':
                             ((!isset($_SESSION['filter']['number']) and $i==1)?'active':'') 
                             ?>">
-                                <a class="page-link" href="events/products/filter.php?number=<?= $i ?>"> 
+                                <a class="page-link" href="page.php?page=products&number=<?= $i ?>"> 
                                     <?= $i ?> 
                                 </a>
                             </li>
@@ -302,7 +385,7 @@
                         ?>
                         <!-- Кнопка "вперёд" -->
                         <li class="page-item">
-                            <a class="page-link" href="events/products/filter.php?number=<?= (isset($_SESSION['filter']['number']))?
+                            <a class="page-link" href="page.php?page=products&number=<?= (isset($_SESSION['filter']['number']))?
                             (($_SESSION['filter']['number']<$total_pages)?
                             $_SESSION['filter']['number'] + 1:
                             $_SESSION['filter']['number']):
@@ -317,3 +400,4 @@
         </div>
     </div>
 </section>
+<?php } ?>
