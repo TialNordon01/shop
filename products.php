@@ -71,26 +71,62 @@
             <!-- Блок с товарами -->
             <div class="col-md-9 left">
                 <?php
-                // Получаем условия фильтрации из сессии
-                $where_clause = isset($_SESSION['filter']['sql_conditions']) ? $_SESSION['filter']['sql_conditions'] : "";
-                $params = isset($_SESSION['filter']['sql_params']) ? $_SESSION['filter']['sql_params'] : [];
-
-                // Формируем SQL-запрос для получения товаров с учетом фильтров
-                $sql = "SELECT p.*, c.name as category_name, sc.name as subcategory_name 
-                        FROM products p 
-                        LEFT JOIN categories c ON p.id_category = c.id 
-                        LEFT JOIN subcategories sc ON p.id_subcategory = sc.id 
-                        $where_clause";
-
-                // Подготавливаем и выполняем запрос
-                $stmt = $conn->prepare($sql);
-                if (!empty($params)) {
-                    $stmt->execute($params);
+                //В зависимости от выбранной категории и подкатегории и страницы формируем запрос
+                $products_query = "
+                    SELECT DISTINCT id, `name`, price, image 
+                    FROM products
+                    JOIN products_subcategories 
+                    ON products.id = products_subcategories.id_product
+                ";
+                // Добавляем поисковой запрос если есть
+                if (isset($_SESSION['filter']['search']) and !empty($_SESSION['filter']['search'])) {
+                    $products_query .= ' WHERE name LIKE "%' . $_SESSION['filter']['search'] . '%"';
+                    //потом выбираем категорию
+                    if (isset($_SESSION['filter']['category'])) {
+                        $id_category = $_SESSION['filter']['category'];
+                        $products_query .= " AND id_category = $id_category";
+                        //потом подкатегорию
+                        if (isset($_SESSION['filter']['subcategory'])) {
+                            $id_subcategory = $_SESSION['filter']['subcategory'];
+                            $products_query .= " AND id_subcategory = $id_subcategory";
+                        }
+                    }
+                //иначе
                 } else {
-                    $stmt->execute();
+                    //выбираем категорию
+                    if (isset($_SESSION['filter']['category'])) {
+                        $id_category = $_SESSION['filter']['category'];
+                        $products_query .= " WHERE id_category = $id_category";
+                        //потом подкатегорию
+                        if (isset($_SESSION['filter']['subcategory'])) {
+                            $id_subcategory = $_SESSION['filter']['subcategory'];
+                            $products_query .= " AND id_subcategory = $id_subcategory";
+                        }
+                    }
                 }
-                $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                //Добавляем сортировку
+                if(isset($_SESSION['filter']['sorting']) 
+                    and isset($_SESSION['filter']['order']) 
+                    and !empty($_SESSION['filter']['sorting']) 
+                    and !empty($_SESSION['filter']['order'])){
+                    $products_query .= " ORDER BY ".$_SESSION['filter']['sorting']." ".$_SESSION['filter']['order'];
+                }
 
+                // Возьмём общее количество товаров
+                $products_count = $database->query($products_query);
+                $products_count = mysqli_num_rows($products_count);
+                // Затем добавим ограничение вывода на странице и в запросе
+                $products_per_page = $_SESSION['filter']['per_page']?? 6;
+                if (isset($_SESSION['filter']['number'])) {
+                    $current_page = $_SESSION['filter']['number'];
+                    $start = ($current_page - 1) * $products_per_page;
+                    $products_query .= " LIMIT $start, $products_per_page";
+                } else {
+                    $products_query .= " LIMIT 0, $products_per_page";
+                }
+
+                // Добавляем товары из БД
+                $products = $database->query($products_query);
                 foreach ($products as $product) {
                 ?>
                     <div class="card d-flex align-items-center" style="width: 18rem; cursor: pointer;" onclick="location.href='page.php?page=product&product=<?= $product['id'] ?>'">
@@ -152,54 +188,6 @@
                 <a href="events/products/clear_filter.php" class="btn btn-danger">Очистить фильтры</a>
             </div>
         </div>
-        <!-- Блок фильтрации по характеристикам -->
-        <?php if (isset($_SESSION['filter']['category'])) { ?>
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <h4>Фильтрация по характеристикам</h4>
-                <form action="events/products/filter.php" method="get" class="characteristics-filter">
-                    <?php
-                    // Получаем характеристики для выбранной категории
-                    $characteristics_query = "
-                        SELECT c.*, pc.value 
-                        FROM characteristics c 
-                        LEFT JOIN product_characteristics pc ON c.id = pc.id_characteristic 
-                        WHERE c.id_category = {$_SESSION['filter']['category']}
-                        GROUP BY c.id
-                    ";
-                    $characteristics = $database->query($characteristics_query);
-                    
-                    foreach ($characteristics as $characteristic) {
-                        // Получаем уникальные значения для характеристики
-                        $values_query = "
-                            SELECT DISTINCT pc.value 
-                            FROM product_characteristics pc 
-                            JOIN products p ON pc.id_product = p.id 
-                            WHERE pc.id_characteristic = {$characteristic['id']}
-                            AND p.id_category = {$_SESSION['filter']['category']}
-                        ";
-                        $values = $database->query($values_query);
-                    ?>
-                        <div class="characteristic-group mb-3">
-                            <label class="form-label"><?= $characteristic['name'] ?></label>
-                            <select name="characteristic_<?= $characteristic['id'] ?>" class="form-select">
-                                <option value="">Все</option>
-                                <?php while ($value = mysqli_fetch_assoc($values)) { ?>
-                                    <option value="<?= $value['value'] ?>" 
-                                        <?= (isset($_SESSION['filter']['characteristics'][$characteristic['id']]) 
-                                            && $_SESSION['filter']['characteristics'][$characteristic['id']] == $value['value']) 
-                                            ? 'selected' : '' ?>>
-                                        <?= $value['value'] ?> <?= $characteristic['unit'] ? $characteristic['unit'] : '' ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                    <?php } ?>
-                    <button type="submit" class="btn btn-success">Применить фильтры</button>
-                </form>
-            </div>
-        </div>
-        <?php } ?>
         <div class="row">
             <div class="col-md-9 d-flex justify-content-center">
                 <?php
