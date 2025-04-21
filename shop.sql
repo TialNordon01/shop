@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 01/12/2024 03:52:51
+ Date: 21/04/2025 18:00:47
 */
 
 SET NAMES utf8mb4;
@@ -48,26 +48,29 @@ CREATE TABLE `orders`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `orders_statuses`(`id_status` ASC) USING BTREE,
   CONSTRAINT `orders_statuses` FOREIGN KEY (`id_status`) REFERENCES `statuses` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
 INSERT INTO `orders` VALUES (1, '2024-11-26 17:57:55', 250490.00, 4);
-INSERT INTO `orders` VALUES (2, '2024-11-26 14:01:15', 250490.00, 1);
-INSERT INTO `orders` VALUES (3, '2024-11-26 14:01:15', 69939.00, 1);
+INSERT INTO `orders` VALUES (2, '2024-12-01 23:24:47', 250490.00, 1);
+INSERT INTO `orders` VALUES (3, '2024-12-01 16:34:43', 69939.00, 3);
 INSERT INTO `orders` VALUES (4, '2024-11-26 14:01:15', 108389.00, 1);
 INSERT INTO `orders` VALUES (5, '2024-11-26 14:01:15', 108389.00, 1);
 INSERT INTO `orders` VALUES (6, '2024-11-26 17:56:17', 218520.00, 4);
 INSERT INTO `orders` VALUES (8, '2024-11-30 19:16:43', 8100.00, 3);
 INSERT INTO `orders` VALUES (9, '2024-11-26 14:01:16', 385630.00, 1);
 INSERT INTO `orders` VALUES (10, '2024-11-26 14:01:16', 173590.00, 1);
-INSERT INTO `orders` VALUES (11, '2024-11-26 14:01:16', 19490.00, 1);
-INSERT INTO `orders` VALUES (12, '2024-11-30 19:18:23', 175210.00, 3);
+INSERT INTO `orders` VALUES (11, '2024-12-01 23:24:52', 19490.00, 5);
+INSERT INTO `orders` VALUES (12, '2024-12-03 15:53:29', 175210.00, 1);
 INSERT INTO `orders` VALUES (13, '2024-11-30 19:29:33', 193080.00, 3);
 INSERT INTO `orders` VALUES (14, '2024-11-30 19:29:38', 347180.00, 3);
-INSERT INTO `orders` VALUES (16, '2024-11-26 14:01:25', 428040.00, 1);
-INSERT INTO `orders` VALUES (17, '2024-11-26 14:01:25', 19490.00, 1);
+INSERT INTO `orders` VALUES (16, '2024-12-01 23:25:00', 428040.00, 7);
+INSERT INTO `orders` VALUES (17, '2024-12-01 23:24:58', 19490.00, 6);
+INSERT INTO `orders` VALUES (20, '2024-12-01 16:34:45', 169998.00, 3);
+INSERT INTO `orders` VALUES (21, '2025-03-13 23:38:41', 6170.00, 1);
+INSERT INTO `orders` VALUES (22, '2025-03-13 23:40:08', 6170.00, 1);
 
 -- ----------------------------
 -- Table structure for products
@@ -81,10 +84,10 @@ CREATE TABLE `products`  (
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `id_category` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `products_categories`(`id_category` ASC) USING BTREE,
   UNIQUE INDEX `idx_name`(`name` ASC) USING BTREE,
+  INDEX `products_categories`(`id_category` ASC) USING BTREE,
   CONSTRAINT `products_categories` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of products
@@ -115,8 +118,7 @@ INSERT INTO `products` VALUES (38, 'Микроволновая печь Samsung 
 INSERT INTO `products` VALUES (39, 'Микроволновая печь Samsung MG23K3575AK/BW', 15499.00, 'Микроволновая печь Samsung MG23K3575AK станет полезным и надежным помощником на вашей кухне. Внутренний объем модели составляет 23 л. Печь оборудована крупным поддоном, диаметр которого равен 28.8 см. Преимуществом устройства является наличие гриля, который может работать совместно с микроволнами. Вам также будут полезны функции автоматического разогрева и автоматической разморозки. Присутствует режим поддержания тепла. Печь оборудована поворотным регулятором и кнопочной панелью управления. Вы сможете по достоинству оценить наличие таймера, который может устанавливаться на время до 99 мин.', 'img/products/Микроволновки/Микроволновая печь Samsung MG23K3575AK BW.png', 4);
 INSERT INTO `products` VALUES (40, 'Микроволновая печь DOMFY DSB-MW105', 7990.00, 'Компактная и многофункциональная черная микроволновая печь с грилем DOMFY DSB-MW105 объемом 20 л и мощностью 700 Вт с поворотным столом диаметром 25,5 см станет незаменимым помощником на кухне. Возможность выбора различных режимов работы и установки отсрочки включения позволят успешно применять СВЧ не только для подогрева, но и для приготовления блюд. Микроволновка отлично подойдет как опытным кулинарам, готовящим по своим рецептам, так и тем, кто предпочитает простоту и удобство использования проверенных стандартных алгоритмов.', 'img/products/Микроволновки/Микроволновая печь DOMFY DSB-MW105.png', 4);
 INSERT INTO `products` VALUES (41, 'Микроволновая печь ACCESSTYLE MG30D100B', 15330.00, 'Модель с увеличенным объёмом внутренней камеры 30 л имеет 8 автоматических режимов меню и 5 режимов мощностей, поэтому шефом может стать даже тот, кто никогда не сталкивался с готовкой. И, конечно, эти комбинированные режимы сильно ускоряют процесс приготовления. Выбирайте один, жмите кнопку старта и все. Осталось только дождаться, когда можно будет пробовать! Кроме того, в устройстве есть режим размораживания. Так что, если вы забыли достать из морозилки рыбу перед приготовлением, микроволновая печь MG30D100B придет на помощь.', 'img/products/Микроволновки/Микроволновая печь ACCESSTYLE MG30D100B.png', 4);
-INSERT INTO `products` VALUES (42, 'Василевси', 666.00, 'авававаававававававававававававававававававававававава', 'img/products/Микроволновки/Василевси.png', 4);
-INSERT INTO `products` VALUES (43, 'Колизеев', 4544.00, 'ААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА', 'img/products/Стиральные машины/Колизеев.png', 1);
+INSERT INTO `products` VALUES (43, 'Колизеев', 4544.00, 'АААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА', 'img/products/Стиральные машины/Колизеев.png', 1);
 
 -- ----------------------------
 -- Table structure for products_orders
@@ -165,6 +167,62 @@ INSERT INTO `products_orders` VALUES (1, 16, 2);
 INSERT INTO `products_orders` VALUES (2, 16, 2);
 INSERT INTO `products_orders` VALUES (6, 16, 1);
 INSERT INTO `products_orders` VALUES (3, 17, 1);
+INSERT INTO `products_orders` VALUES (15, 20, 2);
+INSERT INTO `products_orders` VALUES (30, 21, 1);
+INSERT INTO `products_orders` VALUES (30, 22, 1);
+
+-- ----------------------------
+-- Table structure for products_stats
+-- ----------------------------
+DROP TABLE IF EXISTS `products_stats`;
+CREATE TABLE `products_stats`  (
+  `id_product` int NOT NULL,
+  `id_characteristic` int NOT NULL,
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id_product`, `id_characteristic`) USING BTREE,
+  INDEX `product_characteristics_characteristics`(`id_characteristic` ASC) USING BTREE,
+  CONSTRAINT `product_stats_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `product_stats_stats` FOREIGN KEY (`id_characteristic`) REFERENCES `stats` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of products_stats
+-- ----------------------------
+INSERT INTO `products_stats` VALUES (1, 1, '6');
+INSERT INTO `products_stats` VALUES (1, 2, '10');
+INSERT INTO `products_stats` VALUES (1, 3, '1000');
+INSERT INTO `products_stats` VALUES (1, 4, '72');
+INSERT INTO `products_stats` VALUES (1, 5, '60x45x85');
+INSERT INTO `products_stats` VALUES (1, 6, '40');
+INSERT INTO `products_stats` VALUES (2, 1, '7');
+INSERT INTO `products_stats` VALUES (2, 2, '16');
+INSERT INTO `products_stats` VALUES (2, 3, '1200');
+INSERT INTO `products_stats` VALUES (2, 4, '65');
+INSERT INTO `products_stats` VALUES (2, 5, '60x60x85');
+INSERT INTO `products_stats` VALUES (2, 6, '45');
+INSERT INTO `products_stats` VALUES (6, 7, '2200');
+INSERT INTO `products_stats` VALUES (6, 8, '200');
+INSERT INTO `products_stats` VALUES (6, 9, '1.2');
+INSERT INTO `products_stats` VALUES (6, 10, '1.8');
+INSERT INTO `products_stats` VALUES (6, 11, 'Керамическая');
+INSERT INTO `products_stats` VALUES (12, 12, '588');
+INSERT INTO `products_stats` VALUES (12, 13, '380');
+INSERT INTO `products_stats` VALUES (12, 14, '208');
+INSERT INTO `products_stats` VALUES (12, 15, 'A++');
+INSERT INTO `products_stats` VALUES (12, 16, '38');
+INSERT INTO `products_stats` VALUES (12, 17, '90x75x180');
+INSERT INTO `products_stats` VALUES (30, 18, '20');
+INSERT INTO `products_stats` VALUES (30, 19, '700');
+INSERT INTO `products_stats` VALUES (30, 20, '25.5');
+INSERT INTO `products_stats` VALUES (30, 21, '5');
+INSERT INTO `products_stats` VALUES (30, 22, '45x35x25');
+INSERT INTO `products_stats` VALUES (30, 23, 'Механическое');
+INSERT INTO `products_stats` VALUES (31, 18, '28');
+INSERT INTO `products_stats` VALUES (31, 19, '900');
+INSERT INTO `products_stats` VALUES (31, 20, '30');
+INSERT INTO `products_stats` VALUES (31, 21, '5');
+INSERT INTO `products_stats` VALUES (31, 22, '52x35x30');
+INSERT INTO `products_stats` VALUES (31, 23, 'Сенсорное');
 
 -- ----------------------------
 -- Table structure for products_subcategories
@@ -212,8 +270,48 @@ INSERT INTO `products_subcategories` VALUES (38, 15);
 INSERT INTO `products_subcategories` VALUES (39, 15);
 INSERT INTO `products_subcategories` VALUES (40, 15);
 INSERT INTO `products_subcategories` VALUES (41, 15);
-INSERT INTO `products_subcategories` VALUES (42, 15);
 INSERT INTO `products_subcategories` VALUES (43, 1);
+
+-- ----------------------------
+-- Table structure for stats
+-- ----------------------------
+DROP TABLE IF EXISTS `stats`;
+CREATE TABLE `stats`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `unit` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `id_category` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `characteristics_categories`(`id_category` ASC) USING BTREE,
+  CONSTRAINT `stats_categories` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of stats
+-- ----------------------------
+INSERT INTO `stats` VALUES (1, 'Загрузка', 'кг', 1);
+INSERT INTO `stats` VALUES (2, 'Количество программ', 'шт', 1);
+INSERT INTO `stats` VALUES (3, 'Максимальная скорость отжима', 'об/мин', 1);
+INSERT INTO `stats` VALUES (4, 'Уровень шума', 'дБ', 1);
+INSERT INTO `stats` VALUES (5, 'Габариты (ШxГxВ)', 'см', 1);
+INSERT INTO `stats` VALUES (6, 'Вместимость бака', 'л', 1);
+INSERT INTO `stats` VALUES (7, 'Общий объем', 'л', 2);
+INSERT INTO `stats` VALUES (8, 'Объем холодильной камеры', 'л', 2);
+INSERT INTO `stats` VALUES (9, 'Объем морозильной камеры', 'л', 2);
+INSERT INTO `stats` VALUES (10, 'Класс энергопотребления', NULL, 2);
+INSERT INTO `stats` VALUES (11, 'Уровень шума', 'дБ', 2);
+INSERT INTO `stats` VALUES (12, 'Габариты (ШxГxВ)', 'см', 2);
+INSERT INTO `stats` VALUES (13, 'Мощность', 'Вт', 3);
+INSERT INTO `stats` VALUES (14, 'Объем резервуара для воды', 'мл', 3);
+INSERT INTO `stats` VALUES (15, 'Вес', 'кг', 3);
+INSERT INTO `stats` VALUES (16, 'Длина шнура', 'м', 3);
+INSERT INTO `stats` VALUES (17, 'Тип подошвы', NULL, 3);
+INSERT INTO `stats` VALUES (18, 'Объем', 'л', 4);
+INSERT INTO `stats` VALUES (19, 'Мощность', 'Вт', 4);
+INSERT INTO `stats` VALUES (20, 'Диаметр поддона', 'см', 4);
+INSERT INTO `stats` VALUES (21, 'Количество уровней мощности', 'шт', 4);
+INSERT INTO `stats` VALUES (22, 'Габариты (ШxГxВ)', 'см', 4);
+INSERT INTO `stats` VALUES (23, 'Тип управления', NULL, 4);
 
 -- ----------------------------
 -- Table structure for statuses
@@ -280,7 +378,7 @@ CREATE TABLE `users`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_login`(`login` ASC) USING BTREE,
   UNIQUE INDEX `idx_email`(`email` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
@@ -294,6 +392,7 @@ INSERT INTO `users` VALUES (11, 'you', 'me@gg.org', '698d51a19d8a121ce581499d7b7
 INSERT INTO `users` VALUES (12, 'admin', 'tial_nordon@gmail.com', '15de21c670ae7c3f6f3f1f37029303c9', 0);
 INSERT INTO `users` VALUES (14, 'nig', 'huve@kkk.ru', 'fae0b27c451c728867a567e8c1bb4e53', 0);
 INSERT INTO `users` VALUES (15, 'biba', 'boba@aba.ru', '68053af2923e00204c3ca7c6a3150cf7', 0);
+INSERT INTO `users` VALUES (16, 'testtest', 'testtest@test.com', '15de21c670ae7c3f6f3f1f37029303c9', 0);
 
 -- ----------------------------
 -- Table structure for users_orders
@@ -324,6 +423,9 @@ INSERT INTO `users_orders` VALUES (4, 13);
 INSERT INTO `users_orders` VALUES (4, 14);
 INSERT INTO `users_orders` VALUES (15, 16);
 INSERT INTO `users_orders` VALUES (15, 17);
+INSERT INTO `users_orders` VALUES (5, 20);
+INSERT INTO `users_orders` VALUES (5, 21);
+INSERT INTO `users_orders` VALUES (16, 22);
 
 -- ----------------------------
 -- Function structure for hashing
@@ -359,127 +461,5 @@ CREATE TRIGGER `hash_update` BEFORE UPDATE ON `users` FOR EACH ROW BEGIN
 END
 ;;
 delimiter ;
-
--- ----------------------------
--- Table structure for characteristics
--- ----------------------------
-DROP TABLE IF EXISTS `characteristics`;
-CREATE TABLE `characteristics` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `unit` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `id_category` int NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `characteristics_categories` (`id_category`),
-  CONSTRAINT `characteristics_categories` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-
--- ----------------------------
--- Table structure for product_characteristics
--- ----------------------------
-DROP TABLE IF EXISTS `product_characteristics`;
-CREATE TABLE `product_characteristics` (
-  `id_product` int NOT NULL,
-  `id_characteristic` int NOT NULL,
-  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id_product`, `id_characteristic`),
-  INDEX `product_characteristics_characteristics` (`id_characteristic`),
-  CONSTRAINT `product_characteristics_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `product_characteristics_characteristics` FOREIGN KEY (`id_characteristic`) REFERENCES `characteristics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-
--- ----------------------------
--- Records of characteristics
--- ----------------------------
--- Характеристики для стиральных машин
-INSERT INTO `characteristics` (`name`, `unit`, `id_category`) VALUES
-('Загрузка', 'кг', 1),
-('Количество программ', 'шт', 1),
-('Максимальная скорость отжима', 'об/мин', 1),
-('Уровень шума', 'дБ', 1),
-('Габариты (ШxГxВ)', 'см', 1),
-('Вместимость бака', 'л', 1);
-
--- Характеристики для холодильников
-INSERT INTO `characteristics` (`name`, `unit`, `id_category`) VALUES
-('Общий объем', 'л', 2),
-('Объем холодильной камеры', 'л', 2),
-('Объем морозильной камеры', 'л', 2),
-('Класс энергопотребления', NULL, 2),
-('Уровень шума', 'дБ', 2),
-('Габариты (ШxГxВ)', 'см', 2);
-
--- Характеристики для утюгов
-INSERT INTO `characteristics` (`name`, `unit`, `id_category`) VALUES
-('Мощность', 'Вт', 3),
-('Объем резервуара для воды', 'мл', 3),
-('Вес', 'кг', 3),
-('Длина шнура', 'м', 3),
-('Тип подошвы', NULL, 3);
-
--- Характеристики для микроволновок
-INSERT INTO `characteristics` (`name`, `unit`, `id_category`) VALUES
-('Объем', 'л', 4),
-('Мощность', 'Вт', 4),
-('Диаметр поддона', 'см', 4),
-('Количество уровней мощности', 'шт', 4),
-('Габариты (ШxГxВ)', 'см', 4),
-('Тип управления', NULL, 4);
-
--- ----------------------------
--- Records of product_characteristics
--- ----------------------------
--- Характеристики стиральной машины LG F2J3NS8W
-INSERT INTO `product_characteristics` (`id_product`, `id_characteristic`, `value`) VALUES
-(1, 1, '6'), -- Загрузка 6 кг
-(1, 2, '10'), -- 10 программ
-(1, 3, '1000'), -- Скорость отжима 1000 об/мин
-(1, 4, '72'), -- Уровень шума 72 дБ
-(1, 5, '60x45x85'), -- Габариты
-(1, 6, '40'); -- Вместимость бака 40 л
-
--- Характеристики стиральной машины LEX LWM10714LuxIDD
-INSERT INTO `product_characteristics` (`id_product`, `id_characteristic`, `value`) VALUES
-(2, 1, '7'), -- Загрузка 7 кг
-(2, 2, '16'), -- 16 программ
-(2, 3, '1200'), -- Скорость отжима 1200 об/мин
-(2, 4, '65'), -- Уровень шума 65 дБ
-(2, 5, '60x60x85'), -- Габариты
-(2, 6, '45'); -- Вместимость бака 45 л
-
--- Характеристики утюга Polaris PIR 2444K
-INSERT INTO `product_characteristics` (`id_product`, `id_characteristic`, `value`) VALUES
-(6, 7, '2200'), -- Мощность 2200 Вт
-(6, 8, '200'), -- Объем резервуара 200 мл
-(6, 9, '1.2'), -- Вес 1.2 кг
-(6, 10, '1.8'), -- Длина шнура 1.8 м
-(6, 11, 'Керамическая'); -- Тип подошвы
-
--- Характеристики холодильника Hitachi R-WB720VUC0
-INSERT INTO `product_characteristics` (`id_product`, `id_characteristic`, `value`) VALUES
-(12, 12, '588'), -- Общий объем 588 л
-(12, 13, '380'), -- Объем холодильной камеры 380 л
-(12, 14, '208'), -- Объем морозильной камеры 208 л
-(12, 15, 'A++'), -- Класс энергопотребления
-(12, 16, '38'), -- Уровень шума 38 дБ
-(12, 17, '90x75x180'); -- Габариты
-
--- Характеристики микроволновки Samsung MC28H5013AW
-INSERT INTO `product_characteristics` (`id_product`, `id_characteristic`, `value`) VALUES
-(31, 18, '28'), -- Объем 28 л
-(31, 19, '900'), -- Мощность 900 Вт
-(31, 20, '30'), -- Диаметр поддона 30 см
-(31, 21, '5'), -- 5 уровней мощности
-(31, 22, '52x35x30'), -- Габариты
-(31, 23, 'Сенсорное'); -- Тип управления
-
--- Характеристики микроволновки Midea MM720CFB
-INSERT INTO `product_characteristics` (`id_product`, `id_characteristic`, `value`) VALUES
-(30, 18, '20'), -- Объем 20 л
-(30, 19, '700'), -- Мощность 700 Вт
-(30, 20, '25.5'), -- Диаметр поддона 25.5 см
-(30, 21, '5'), -- 5 уровней мощности
-(30, 22, '45x35x25'), -- Габариты
-(30, 23, 'Механическое'); -- Тип управления
 
 SET FOREIGN_KEY_CHECKS = 1;
