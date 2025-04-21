@@ -2,27 +2,55 @@
 // Фильтры
     //Запускаем сессию
     session_start();
-    //Получаем через запросы параметры фильтрации и кладём их в сессии
-    if(isset($_POST['search']))
-        $_SESSION['filter']['search'] = $_POST['search'];
-    if(isset($_GET['sorting']))
-        $_SESSION['filter']['sorting'] = $_GET['sorting'];
-    if(isset($_GET['order']))
-        $_SESSION['filter']['order'] = $_GET['order'];
-    if(isset($_GET['category'])){
-        $_SESSION['filter']['category'] = $_GET['category'];
-        unset($_SESSION['filter']['subcategory']);
-    }
-    if(isset($_GET['subcategory']))
-        $_SESSION['filter']['subcategory'] = $_GET['subcategory'];
-    if(isset($_GET['number'])){
-        $_SESSION['filter']['number'] = $_GET['number'];
-    } else {
-        unset($_SESSION['filter']['number']);
-    }
-    if (isset($_GET['per_page'])) 
-        $_SESSION['filter']['per_page'] = $_GET['per_page'];
+    require_once '../../database.php';
 
-    //Производим перенаправление на список товаров
-    header("Location: ../../page.php?page=products");
+    // Очищаем предыдущие фильтры характеристик
+    if (isset($_SESSION['filter']['characteristics'])) {
+        unset($_SESSION['filter']['characteristics']);
+    }
+
+    // Получаем все параметры фильтров из GET-запроса
+    foreach ($_GET as $key => $value) {
+        if (strpos($key, 'characteristic_') === 0 && !empty($value)) {
+            $characteristic_id = substr($key, strlen('characteristic_'));
+            $_SESSION['filter']['characteristics'][$characteristic_id] = $value;
+        }
+    }
+
+    // Формируем SQL-запрос с учетом фильтров
+    $where_conditions = [];
+    $params = [];
+
+    if (isset($_SESSION['filter']['category'])) {
+        $where_conditions[] = "p.id_category = ?";
+        $params[] = $_SESSION['filter']['category'];
+    }
+
+    if (isset($_SESSION['filter']['subcategory'])) {
+        $where_conditions[] = "p.id_subcategory = ?";
+        $params[] = $_SESSION['filter']['subcategory'];
+    }
+
+    if (isset($_SESSION['filter']['characteristics'])) {
+        foreach ($_SESSION['filter']['characteristics'] as $characteristic_id => $value) {
+            $where_conditions[] = "EXISTS (
+                SELECT 1 FROM product_characteristics pc 
+                WHERE pc.id_product = p.id 
+                AND pc.id_characteristic = ? 
+                AND pc.value = ?
+            )";
+            $params[] = $characteristic_id;
+            $params[] = $value;
+        }
+    }
+
+    $where_clause = !empty($where_conditions) ? "WHERE " . implode(" AND ", $where_conditions) : "";
+
+    // Сохраняем условия фильтрации в сессии
+    $_SESSION['filter']['sql_conditions'] = $where_clause;
+    $_SESSION['filter']['sql_params'] = $params;
+
+    // Перенаправляем обратно на страницу продуктов
+    header("Location: ../../products.php");
+    exit();
 ?>
