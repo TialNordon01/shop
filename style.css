@@ -275,3 +275,25 @@ footer a:hover{
   background-color: #ccc;
   color: #333
 }
+
+/* Сравнение товаров */
+.compare {
+  padding: 50px 0;
+}
+.compare .table {
+  margin-bottom: 20px;
+}
+.compare .table th {
+  vertical-align: middle;
+  min-width: 200px;
+}
+.compare .table td {
+  vertical-align: middle;
+}
+.compare .table img {
+  max-width: 100%;
+  height: auto;
+}
+.compare .btn-sm {
+  margin: 5px;
+}

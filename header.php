@@ -49,6 +49,7 @@
               <a class="btn btn-link" href="page.php?page=account" role="button"><img src="img\header\profile.png" alt="Личный кабинет" height="30px"></a>
             <?php } ?>
             <a class="btn btn-link" href="page.php?page=cart" role="button"><img src="img\header\cart.png" alt="Корзина" height="30px"></a>
+            <a class="btn btn-link" href="page.php?page=compare" role="button"><img src="img\header\compare.png" alt="Сравнение" height="30px"></a>
             <?php if(!isset($_SESSION['user'])){ ?>
             <div class="navbar-nav right">
               <a class="btn btn-outline-light ms-2" href="page.php?page=signup" role="button">Зарегистрироватся</a>

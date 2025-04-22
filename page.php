@@ -48,6 +48,9 @@
     } if($page=='add_subcategory') {
         // Добавление подкатегории
         require('add_subcategory.php');
+    } if($page=='compare') {
+        // Сравнение товаров
+        require('compare.php');
     }
     //Подгрузка подвала
     require('footer.php');

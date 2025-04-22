@@ -43,6 +43,7 @@
             <?= $product["description"] ?>
           </p>
           <a class="btn btn-success" href="events/to_cart.php?product=<?= $id_product ?>" role="button">Добавить в корзину</a>
+          <a class="btn btn-outline-success" href="events/add_to_compare.php?product=<?= $id_product ?>" role="button">Добавить к сравнению</a>
           <?php if ($_SESSION['user']['is_admin'] == 1) { ?>
           <a href="events/delete_product.php?product=<?= $product['id']?>" class="btn btn-danger">Удалить товар</a>
           <?php } ?>
