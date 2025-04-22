@@ -65,7 +65,7 @@
                                     <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>" style="max-height: 150px; object-fit: contain;">
                                     <h5 class="mt-2"><?= $product['name'] ?></h5>
                                     <p class="text-success"><?= number_format($product['price'], 2, '.', ' ') ?> ₽</p>
-                                    <a href="page.php?page=product&id=<?= $product['id'] ?>" class="btn btn-outline-success btn-sm">Подробнее</a>
+                                    <a href="page.php?page=product&product=<?= $product['id'] ?>" class="btn btn-outline-success btn-sm">Подробнее</a>
                                     <a href="events/remove_from_compare.php?product=<?= $product['id'] ?>" class="btn btn-outline-danger btn-sm">Удалить</a>
                                 </th>
                             <?php endforeach; ?>
