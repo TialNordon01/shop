@@ -4,6 +4,10 @@
     // Получаем информацию о товарах
     $products = [];
     if (!empty($compare_products)) {
+        // Функция implode объединяет элементы массива $compare_products в строку, 
+        // разделяя их запятыми. Это нужно для формирования списка ID товаров 
+        // для SQL-запроса с оператором IN. Например, если в массиве $compare_products 
+        // есть значения [1, 3, 5], то $ids будет равно "1,3,5"
         $ids = implode(',', $compare_products);
         $query = "SELECT products.*, categories.name as category_name 
                   FROM products 
@@ -16,7 +20,9 @@
     }
 
     // Получаем характеристики для каждого товара
-    foreach ($products as &$product) {
+    // Создаем новый массив для хранения товаров с их характеристиками
+    $products_with_stats = [];
+    foreach ($products as $product) {
         $query = "SELECT stats.name, products_stats.value 
                   FROM products_stats 
                   JOIN stats ON products_stats.id_stats = stats.id 
@@ -26,9 +32,10 @@
         while ($row = mysqli_fetch_assoc($result)) {
             $product['stats'][$row['name']] = $row['value'];
         }
+        $products_with_stats[] = $product;
     }
-
-    $page = 'compare';
+    // Заменяем исходный массив на новый с характеристиками
+    $products = $products_with_stats;
 ?>
 
 <section class="compare">
@@ -95,5 +102,3 @@
         <?php endif; ?>
     </div>
 </section>
-
-<?php include 'footer.php'; ?> 

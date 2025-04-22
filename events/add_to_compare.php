@@ -18,11 +18,14 @@
     } elseif (count($_SESSION['compare']) >= $max_compare) {
         $_SESSION['message'] = 'Можно сравнить не более ' . $max_compare . ' товаров';
     } else {
+        // Добавляем ID товара в массив сравнения
         $_SESSION['compare'][] = $product_id;
+        // Выводим список ID товаров в массиве сравнения
         $_SESSION['message'] = 'Товар добавлен для сравнения';
     }
 
-    // Перенаправляем обратно на страницу товара
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit; 
+    //Перенаправляем на предыдущую страничку
+    $redirect = $_SERVER['HTTP_REFERER'];
+    header("Location: $redirect");
+    exit(); 
 ?>
