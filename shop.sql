@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 21/04/2025 18:00:47
+ Date: 22/04/2025 19:47:16
 */
 
 SET NAMES utf8mb4;
@@ -176,13 +176,13 @@ INSERT INTO `products_orders` VALUES (30, 22, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `products_stats`;
 CREATE TABLE `products_stats`  (
-  `id_product` int NOT NULL,
-  `id_characteristic` int NOT NULL,
-  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id_product`, `id_characteristic`) USING BTREE,
-  INDEX `product_characteristics_characteristics`(`id_characteristic` ASC) USING BTREE,
-  CONSTRAINT `product_stats_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `product_stats_stats` FOREIGN KEY (`id_characteristic`) REFERENCES `stats` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id_product` int NULL DEFAULT NULL,
+  `id_stats` int NULL DEFAULT NULL,
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  INDEX `products_stats_stats`(`id_stats` ASC) USING BTREE,
+  INDEX `products_stats_products`(`id_product` ASC) USING BTREE,
+  CONSTRAINT `products_stats_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `products_stats_stats` FOREIGN KEY (`id_stats`) REFERENCES `stats` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -432,8 +432,9 @@ INSERT INTO `users_orders` VALUES (16, 22);
 -- ----------------------------
 DROP FUNCTION IF EXISTS `hashing`;
 delimiter ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `hashing`(pass VARCHAR(255)) RETURNS varchar(255) CHARSET utf8mb4
-    DETERMINISTIC
+CREATE FUNCTION `hashing`(pass VARCHAR(255))
+ RETURNS varchar(255) CHARSET utf8mb4
+  DETERMINISTIC
 BEGIN
   RETURN MD5(pass);
 END
