@@ -25,7 +25,7 @@
     foreach ($products as $product) {
         $query = "SELECT stats.name, products_stats.value 
                   FROM products_stats 
-                  JOIN stats ON products_stats.id_stats = stats.id 
+                  JOIN stats ON products_stats.id_stat = stats.id 
                   WHERE products_stats.id_product = {$product['id']}";
         $result = mysqli_query($database, $query);
         $product['stats'] = [];

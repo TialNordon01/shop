@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 22/04/2025 19:47:16
+ Date: 24/04/2025 23:38:24
 */
 
 SET NAMES utf8mb4;
@@ -84,7 +84,6 @@ CREATE TABLE `products`  (
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `id_category` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `idx_name`(`name` ASC) USING BTREE,
   INDEX `products_categories`(`id_category` ASC) USING BTREE,
   CONSTRAINT `products_categories` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
@@ -119,6 +118,23 @@ INSERT INTO `products` VALUES (39, 'Микроволновая печь Samsung 
 INSERT INTO `products` VALUES (40, 'Микроволновая печь DOMFY DSB-MW105', 7990.00, 'Компактная и многофункциональная черная микроволновая печь с грилем DOMFY DSB-MW105 объемом 20 л и мощностью 700 Вт с поворотным столом диаметром 25,5 см станет незаменимым помощником на кухне. Возможность выбора различных режимов работы и установки отсрочки включения позволят успешно применять СВЧ не только для подогрева, но и для приготовления блюд. Микроволновка отлично подойдет как опытным кулинарам, готовящим по своим рецептам, так и тем, кто предпочитает простоту и удобство использования проверенных стандартных алгоритмов.', 'img/products/Микроволновки/Микроволновая печь DOMFY DSB-MW105.png', 4);
 INSERT INTO `products` VALUES (41, 'Микроволновая печь ACCESSTYLE MG30D100B', 15330.00, 'Модель с увеличенным объёмом внутренней камеры 30 л имеет 8 автоматических режимов меню и 5 режимов мощностей, поэтому шефом может стать даже тот, кто никогда не сталкивался с готовкой. И, конечно, эти комбинированные режимы сильно ускоряют процесс приготовления. Выбирайте один, жмите кнопку старта и все. Осталось только дождаться, когда можно будет пробовать! Кроме того, в устройстве есть режим размораживания. Так что, если вы забыли достать из морозилки рыбу перед приготовлением, микроволновая печь MG30D100B придет на помощь.', 'img/products/Микроволновки/Микроволновая печь ACCESSTYLE MG30D100B.png', 4);
 INSERT INTO `products` VALUES (43, 'Колизеев', 4544.00, 'АААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА', 'img/products/Стиральные машины/Колизеев.png', 1);
+
+-- ----------------------------
+-- Table structure for products_comments
+-- ----------------------------
+DROP TABLE IF EXISTS `products_comments`;
+CREATE TABLE `products_comments`  (
+  `id_product` int NULL DEFAULT NULL,
+  `id_comment` int NULL DEFAULT NULL,
+  INDEX `products_comments_products`(`id_product` ASC) USING BTREE,
+  INDEX `products_comments_comments`(`id_comment` ASC) USING BTREE,
+  CONSTRAINT `products_comments_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `products_comments_comments` FOREIGN KEY (`id_comment`) REFERENCES `сomments` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of products_comments
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for products_orders
@@ -177,12 +193,12 @@ INSERT INTO `products_orders` VALUES (30, 22, 1);
 DROP TABLE IF EXISTS `products_stats`;
 CREATE TABLE `products_stats`  (
   `id_product` int NULL DEFAULT NULL,
-  `id_stats` int NULL DEFAULT NULL,
+  `id_stat` int NULL DEFAULT NULL,
   `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  INDEX `products_stats_stats`(`id_stats` ASC) USING BTREE,
+  INDEX `products_stats_stats`(`id_stat` ASC) USING BTREE,
   INDEX `products_stats_products`(`id_product` ASC) USING BTREE,
   CONSTRAINT `products_stats_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `products_stats_stats` FOREIGN KEY (`id_stats`) REFERENCES `stats` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `products_stats_stats` FOREIGN KEY (`id_stat`) REFERENCES `stats` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -426,6 +442,21 @@ INSERT INTO `users_orders` VALUES (15, 17);
 INSERT INTO `users_orders` VALUES (5, 20);
 INSERT INTO `users_orders` VALUES (5, 21);
 INSERT INTO `users_orders` VALUES (16, 22);
+
+-- ----------------------------
+-- Table structure for сomments
+-- ----------------------------
+DROP TABLE IF EXISTS `сomments`;
+CREATE TABLE `сomments`  (
+  `id` int NOT NULL,
+  `star_count` int NULL DEFAULT NULL,
+  `text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of сomments
+-- ----------------------------
 
 -- ----------------------------
 -- Function structure for hashing
