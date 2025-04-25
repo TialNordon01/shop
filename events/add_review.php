@@ -18,13 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     "INSERT INTO сomments (star_count, `text`, id_user) 
      VALUES ($rating, '$text', $user_id)"
   );
-  echo "INSERT INTO сomments (star_count, `text`, id_user) 
-     VALUES ($rating, '$text', $user_id)";
 
   // Получаем id добавленного отзыва
   $comment_id = mysqli_insert_id($database);
-  echo $comment_id;
-  
 
   // Связываем отзыв с товаром в таблице products_comments
   $database->query(
@@ -33,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   );
 
   //Перенаправляем на предыдущую страничку
-//   $redirect = $_SERVER['HTTP_REFERER'];
-//   header("Location: $redirect");
-//   exit(); 
+  $redirect = $_SERVER['HTTP_REFERER'];
+  header("Location: $redirect");
+  exit(); 
 } else {
   header('Location: ../page.php?page=index');
   exit();
