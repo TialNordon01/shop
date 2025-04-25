@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 25/04/2025 15:48:32
+ Date: 25/04/2025 21:25:16
 */
 
 SET NAMES utf8mb4;
@@ -128,8 +128,8 @@ CREATE TABLE `products_comments`  (
   `id_comment` int NULL DEFAULT NULL,
   INDEX `products_comments_products`(`id_product` ASC) USING BTREE,
   INDEX `products_comments_comments`(`id_comment` ASC) USING BTREE,
-  CONSTRAINT `products_comments_comments` FOREIGN KEY (`id_comment`) REFERENCES `сomments` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `products_comments_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `products_comments_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `products_comments_comments` FOREIGN KEY (`id_comment`) REFERENCES `сomments` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -448,18 +448,19 @@ INSERT INTO `users_orders` VALUES (16, 22);
 -- ----------------------------
 DROP TABLE IF EXISTS `сomments`;
 CREATE TABLE `сomments`  (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `star_count` int NULL DEFAULT NULL,
   `text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `id_user` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `comments_users`(`id_user` ASC) USING BTREE,
   CONSTRAINT `comments_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of сomments
 -- ----------------------------
+INSERT INTO `сomments` VALUES (1, 5, 'вывыв', 4);
 
 -- ----------------------------
 -- Function structure for hashing
