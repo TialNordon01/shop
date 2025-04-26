@@ -42,10 +42,10 @@
     <div class="container">
         <h2 class="text-center mb-4">Сравнение товаров</h2>
         
-        <?php if (isset($_SESSION['message'])): ?>
+        <?php if (isset($_SESSION['message_compare'])): ?>
             <div class="alert alert-info text-center">
-                <?= $_SESSION['message'] ?>
-                <?php unset($_SESSION['message']); ?>
+                <?= $_SESSION['message_compare'] ?>
+                <?php unset($_SESSION['message_compare']); ?>
             </div>
         <?php endif; ?>
         

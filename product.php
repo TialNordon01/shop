@@ -58,7 +58,7 @@
           <div class="card mb-4">
             <div class="card-body">
               <h5 class="card-title">Оставить отзыв</h5>
-              <form action="events/add_review.php" method="POST">
+              <form action="events/product/add_review.php" method="POST">
                 <input type="hidden" name="product_id" value="<?= $id_product ?>">
                 <div class="mb-3">
                   <label for="rating" class="form-label">Оценка</label>
@@ -87,12 +87,12 @@
           <!-- Список отзывов -->
           <?php
           $reviews = $database->query(
-            "SELECT сomments.id, сomments.star_count, сomments.text, сomments.id_user, users.login
-             FROM сomments
-             JOIN users ON сomments.id_user = users.id
-             JOIN products_comments ON сomments.id = products_comments.id_comment
-             WHERE products_comments.id_product = $id_product
-             ORDER BY сomments.id DESC"
+            "SELECT reviews.id, reviews.star_count, reviews.text, reviews.id_user, users.login
+             FROM reviews
+             JOIN users ON reviews.id_user = users.id
+             JOIN products_reviews ON reviews.id = products_reviews.id_review
+             WHERE products_reviews.id_product = $id_product
+             ORDER BY reviews.id DESC"
           );
 
           if (mysqli_num_rows($reviews) > 0) {

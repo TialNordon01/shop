@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 25/04/2025 21:25:16
+ Date: 26/04/2025 14:20:06
 */
 
 SET NAMES utf8mb4;
@@ -120,23 +120,6 @@ INSERT INTO `products` VALUES (41, 'Микроволновая печь ACCESSTY
 INSERT INTO `products` VALUES (43, 'Колизеев', 4544.00, 'АААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА', 'img/products/Стиральные машины/Колизеев.png', 1);
 
 -- ----------------------------
--- Table structure for products_comments
--- ----------------------------
-DROP TABLE IF EXISTS `products_comments`;
-CREATE TABLE `products_comments`  (
-  `id_product` int NULL DEFAULT NULL,
-  `id_comment` int NULL DEFAULT NULL,
-  INDEX `products_comments_products`(`id_product` ASC) USING BTREE,
-  INDEX `products_comments_comments`(`id_comment` ASC) USING BTREE,
-  CONSTRAINT `products_comments_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `products_comments_comments` FOREIGN KEY (`id_comment`) REFERENCES `сomments` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of products_comments
--- ----------------------------
-
--- ----------------------------
 -- Table structure for products_orders
 -- ----------------------------
 DROP TABLE IF EXISTS `products_orders`;
@@ -186,6 +169,26 @@ INSERT INTO `products_orders` VALUES (3, 17, 1);
 INSERT INTO `products_orders` VALUES (15, 20, 2);
 INSERT INTO `products_orders` VALUES (30, 21, 1);
 INSERT INTO `products_orders` VALUES (30, 22, 1);
+
+-- ----------------------------
+-- Table structure for products_reviews
+-- ----------------------------
+DROP TABLE IF EXISTS `products_reviews`;
+CREATE TABLE `products_reviews`  (
+  `id_product` int NULL DEFAULT NULL,
+  `id_review` int NULL DEFAULT NULL,
+  INDEX `products_comments_products`(`id_product` ASC) USING BTREE,
+  INDEX `products_comments_reviews`(`id_review` ASC) USING BTREE,
+  CONSTRAINT `products_comments_products` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `products_comments_reviews` FOREIGN KEY (`id_review`) REFERENCES `reviews` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of products_reviews
+-- ----------------------------
+INSERT INTO `products_reviews` VALUES (36, 2);
+INSERT INTO `products_reviews` VALUES (36, 3);
+INSERT INTO `products_reviews` VALUES (36, 4);
 
 -- ----------------------------
 -- Table structure for products_stats
@@ -287,6 +290,28 @@ INSERT INTO `products_subcategories` VALUES (39, 15);
 INSERT INTO `products_subcategories` VALUES (40, 15);
 INSERT INTO `products_subcategories` VALUES (41, 15);
 INSERT INTO `products_subcategories` VALUES (43, 1);
+
+-- ----------------------------
+-- Table structure for reviews
+-- ----------------------------
+DROP TABLE IF EXISTS `reviews`;
+CREATE TABLE `reviews`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `star_count` int NULL DEFAULT NULL,
+  `text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `id_user` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `reviews_users`(`id_user` ASC) USING BTREE,
+  CONSTRAINT `reviews_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of reviews
+-- ----------------------------
+INSERT INTO `reviews` VALUES (1, 5, 'вывыв', 4);
+INSERT INTO `reviews` VALUES (2, 5, 'ыапвывап', 4);
+INSERT INTO `reviews` VALUES (3, 5, 'Хороший товар!', 4);
+INSERT INTO `reviews` VALUES (4, 5, 'dddd', 4);
 
 -- ----------------------------
 -- Table structure for stats
@@ -442,25 +467,6 @@ INSERT INTO `users_orders` VALUES (15, 17);
 INSERT INTO `users_orders` VALUES (5, 20);
 INSERT INTO `users_orders` VALUES (5, 21);
 INSERT INTO `users_orders` VALUES (16, 22);
-
--- ----------------------------
--- Table structure for сomments
--- ----------------------------
-DROP TABLE IF EXISTS `сomments`;
-CREATE TABLE `сomments`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `star_count` int NULL DEFAULT NULL,
-  `text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `id_user` int NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `comments_users`(`id_user` ASC) USING BTREE,
-  CONSTRAINT `comments_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of сomments
--- ----------------------------
-INSERT INTO `сomments` VALUES (1, 5, 'вывыв', 4);
 
 -- ----------------------------
 -- Function structure for hashing

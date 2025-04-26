@@ -14,13 +14,13 @@
 
     // Проверяем, не добавлен ли уже товар
     if (in_array($product_id, $_SESSION['compare'])) {
-        $_SESSION['message'] = 'Товар уже добавлен для сравнения';
+        $_SESSION['message_compare'] = 'Товар уже добавлен для сравнения';
     } elseif (count($_SESSION['compare']) >= $max_compare) {
-        $_SESSION['message'] = 'Можно сравнить не более ' . $max_compare . ' товаров';
+        $_SESSION['message_compare'] = 'Можно сравнить не более ' . $max_compare . ' товаров';
     } else {
         // Добавляем ID товара в массив сравнения
         $_SESSION['compare'][] = $product_id;
-        unset($_SESSION['message']);
+        unset($_SESSION['message_compare']);
     }
 
     //Перенаправляем на предыдущую страничку
