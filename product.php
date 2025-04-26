@@ -104,7 +104,7 @@
                   <h5 class="card-title mb-0"><?= $review['login'] ?></h5>
                   <div class="text-warning">
                     <?php for ($i = 0; $i < $review['star_count']; $i++) { ?>
-                      <i class="fas fa-star"></i>
+                      <img src="img/product/star.png" alt="Звезда" class="star-icon" style="width: 16px; height: auto;">
                     <?php } ?>
                   </div>
                 </div>
