@@ -104,6 +104,22 @@
                         }
                     }
                 }
+
+                // Добавляем фильтры по характеристикам
+                if (isset($_SESSION['filter']['stats']) && !empty($_SESSION['filter']['stats'])) {
+                    $stats = $_SESSION['filter']['stats'];
+                    foreach ($stats as $stat_id => $value) {
+                        if (!empty($value)) {
+                            $products_query .= " AND EXISTS (
+                                SELECT 1 FROM products_stats 
+                                WHERE products_stats.id_product = products.id 
+                                AND products_stats.id_stat = $stat_id 
+                                AND products_stats.value = '$value'
+                            )";
+                        }
+                    }
+                }
+
                 //Добавляем сортировку
                 if(isset($_SESSION['filter']['sorting']) 
                     and isset($_SESSION['filter']['order']) 
@@ -185,6 +201,46 @@
                         </div>
                     <?php } ?>
                 </div>
+                <!-- Фильтры по характеристикам -->
+                <?php if (isset($_SESSION['filter']['category'])): ?>
+                    <form action="events/products/filter.php" method="get">
+                        <?php
+                        $id_category = $_SESSION['filter']['category'];
+                        $stats = $database->query("
+                            SELECT DISTINCT stats.id, stats.name, stats.unit, products_stats.value
+                            FROM stats
+                            JOIN products_stats ON stats.id = products_stats.id_stat
+                            JOIN products ON products_stats.id_product = products.id
+                            WHERE products.id_category = $id_category
+                            ORDER BY stats.name
+                        ");
+                        
+                        $current_stats = [];
+                        while ($stat = $stats->fetch_assoc()) {
+                            $current_stats[$stat['id']]['name'] = $stat['name'];
+                            $current_stats[$stat['id']]['unit'] = $stat['unit'];
+                            $current_stats[$stat['id']]['values'][] = $stat['value'];
+                        }
+                        
+                        foreach ($current_stats as $stat_id => $stat):
+                        ?>
+                            <div class="mb-3">
+                                <h4><?= $stat['name'] ?></h4>
+                                <select class="form-select" name="stats[<?= $stat_id ?>]">
+                                    <option value="">Все</option>
+                                    <?php foreach (array_unique($stat['values']) as $value): ?>
+                                        <option value="<?= $value ?>" <?= (isset($_SESSION['filter']['stats'][$stat_id]) && $_SESSION['filter']['stats'][$stat_id] == $value) ? 'selected' : '' ?>>
+                                            <?= $value ?> <?= $stat['unit'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        <?php endforeach; ?>
+                        
+                        <button type="submit" class="btn btn-success">Применить фильтры</button>
+                    </form>
+                <?php endif; ?>
+
                 <a href="events/products/clear_filter.php" class="btn btn-danger">Очистить фильтры</a>
             </div>
         </div>

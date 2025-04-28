@@ -22,6 +22,9 @@
     }
     if (isset($_GET['per_page'])) 
         $_SESSION['filter']['per_page'] = $_GET['per_page'];
+    if(isset($_GET['stats'])) {
+        $_SESSION['filter']['stats'] = $_GET['stats'];
+    }
 
     //Производим перенаправление на список товаров
     header("Location: ../../page.php?page=products");
