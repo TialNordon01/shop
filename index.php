@@ -25,4 +25,6 @@
       </div>
     </div>
   </div>
+  <div class="circle-bottom-1"></div>
+  <div class="circle-bottom-2"></div>
 </section>

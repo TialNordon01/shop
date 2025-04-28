@@ -77,6 +77,28 @@ header .btn-info {
   background-color: rgba(25, 135, 84, 0.05);
   z-index: -2;
 }
+.index .circle-bottom-1 {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background-color: rgba(25, 135, 84, 0.1);
+  z-index: -1;
+}
+.index .circle-bottom-2 {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: -20%;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background-color: rgba(25, 135, 84, 0.05);
+  z-index: -2;
+}
 .index .carousel {
   margin: 25px 0;
 }
@@ -84,6 +106,12 @@ header .btn-info {
   max-height: 400px;
   object-fit: contain;
   width: 100%;
+}
+@media (max-width: 768px) {
+  .index .circle-bottom-1,
+  .index .circle-bottom-2 {
+      display: none;
+  }
 }
 
 /* Категории */
