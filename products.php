@@ -223,7 +223,9 @@
                         }
                         
                         foreach ($current_stats as $stat_id => $stat):
+                            
                         ?>
+                            
                             <div class="mb-3">
                                 <h4><?= $stat['name'] ?></h4>
                                 <select class="form-select" name="stats[<?= $stat_id ?>]">

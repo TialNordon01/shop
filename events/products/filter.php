@@ -12,6 +12,7 @@
     if(isset($_GET['category'])){
         $_SESSION['filter']['category'] = $_GET['category'];
         unset($_SESSION['filter']['subcategory']);
+        unset($_SESSION['filter']['stats']);
     }
     if(isset($_GET['subcategory']))
         $_SESSION['filter']['subcategory'] = $_GET['subcategory'];
