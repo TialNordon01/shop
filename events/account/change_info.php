@@ -3,7 +3,7 @@
     //Запускаем сессию  
     session_start();
     //Подгружаем подключение к БД
-    require('./../database.php');
+    require('../../database.php');
     //Забываем сообщение
     unset($_SESSION['message_account']);
 
