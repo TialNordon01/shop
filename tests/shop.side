@@ -243,6 +243,49 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "093b4b7b-83f0-4bbe-bde5-ea15e33af358",
+    "name": "mobile",
+    "commands": [{
+      "id": "0141420a-031f-4a0e-aef9-61322131a448",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/page.php",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6eba4f34-0bf8-4526-ba73-ccaae21e3181",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1936x1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8b33fdb7-d67c-41d9-8963-aebb594ba684",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1024x1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "64416563-1fd0-4944-b1d2-85e73d331876",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "176x1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a4ab04ed-d741-4d1b-8389-9297b269f481",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-brand > img",
+      "targets": [
+        ["css=.navbar-brand > img", "css:finder"],
+        ["xpath=//img[@alt='Магазин']", "xpath:img"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "2bc5505d-bc93-41b3-a565-fd9784bbf33d",
