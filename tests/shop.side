@@ -1,0 +1,257 @@
+{
+  "id": "92782715-8262-483a-b067-9729445d908d",
+  "version": "2.0",
+  "name": "shop",
+  "url": "http://localhost:3000/page.php",
+  "tests": [{
+    "id": "7ce6e215-b0ea-44e2-881e-ad6673c46938",
+    "name": "signin",
+    "commands": [{
+      "id": "3c3b435d-0bf2-4f07-80c6-2fa6dd8f46d9",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/page.php",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "41cae271-b3e0-42f3-b738-edbf6e612344",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1936x1048",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bbe2ee1a-e2a9-447d-9d60-44a390272e80",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Войти",
+      "targets": [
+        ["linkText=Войти", "linkText"],
+        ["css=.btn-outline-light:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Войти')]", "xpath:link"],
+        ["xpath=//div[@id='navbarSupportedContent']/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'page.php?page=signin')]", "xpath:href"],
+        ["xpath=//div/div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Войти')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ba93a10f-418f-4263-aa46-097c1c79b32c",
+      "comment": "",
+      "command": "click",
+      "target": "id=login",
+      "targets": [
+        ["id=login", "id"],
+        ["name=login", "name"],
+        ["css=#login", "css:finder"],
+        ["xpath=//input[@id='login']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d8c13f63-52ae-449c-82cd-366b0b34d471",
+      "comment": "",
+      "command": "type",
+      "target": "id=login",
+      "targets": [
+        ["id=login", "id"],
+        ["name=login", "name"],
+        ["css=#login", "css:finder"],
+        ["xpath=//input[@id='login']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "testtest"
+    }, {
+      "id": "eeca34d6-69cb-42b4-98ef-58213afe90f9",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8a0fd6ed-5f44-458a-aa7e-4321b67b6546",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "testtest@test.com"
+    }, {
+      "id": "d049e3f6-a657-4013-80d5-2d2eb5be16a4",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d4224bdb-b1c5-4827-b89a-6191d52bd760",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "555"
+    }, {
+      "id": "7d76db8b-cb36-48bb-a0f1-66b74102baf1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-success",
+      "targets": [
+        ["css=.btn-success", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Войти')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "1bcaa95c-b6eb-4869-b1eb-cd89ceaa6f6a",
+    "name": "cart",
+    "commands": [{
+      "id": "578b1f29-742a-43b8-a266-ecfe5f9cc677",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/page.php",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "68080ca1-d2e8-4ef7-bd42-1fc396937cc9",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1936x1048",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1f523c89-53ba-4fef-a63c-4de2f4755aed",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Список товаров",
+      "targets": [
+        ["linkText=Список товаров", "linkText"],
+        ["css=.nav-item:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Список товаров')]", "xpath:link"],
+        ["xpath=//div[@id='navbarSupportedContent']/ul/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'page.php?page=products')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Список товаров')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "75fb373d-c65d-4521-9426-f1ab310ab537",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Добавить в корзину",
+      "targets": [
+        ["linkText=Добавить в корзину", "linkText"],
+        ["css=.card:nth-child(1) .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Добавить в корзину')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'events/to_cart.php?product=1')]", "xpath:href"],
+        ["xpath=//p[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Добавить в корзину')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1b572a28-a036-422c-bef0-d3a3afe74cf7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4) > img",
+      "targets": [
+        ["css=.btn:nth-child(4) > img", "css:finder"],
+        ["xpath=//img[@alt='Корзина']", "xpath:img"],
+        ["xpath=//div[@id='navbarSupportedContent']/a[3]/img", "xpath:idRelative"],
+        ["xpath=//a[3]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c89b6e8c-1ade-4d7d-bc39-8a2db9c916f1",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=+",
+      "targets": [
+        ["linkText=+", "linkText"],
+        ["css=td > .btn-secondary:nth-child(1)", "css:finder"],
+        ["xpath=//a[contains(text(),'+')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'events/cart/plus_count.php?product=1')]", "xpath:href"],
+        ["xpath=//td[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'+')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "ed43f0a0-e0aa-45d0-bc47-5c436548f05a",
+    "name": "order",
+    "commands": [{
+      "id": "323ef2e4-7d07-4371-9002-d9e5898b5690",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/page.php",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d8126164-6e80-46fd-875c-af60c9dd1b91",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1936x1048",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "853abbfe-0952-4a9b-a596-228e761ea644",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4) > img",
+      "targets": [
+        ["css=.btn:nth-child(4) > img", "css:finder"],
+        ["xpath=//img[@alt='Корзина']", "xpath:img"],
+        ["xpath=//div[@id='navbarSupportedContent']/a[3]/img", "xpath:idRelative"],
+        ["xpath=//a[3]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cf6358b8-77af-4ff1-ac0b-c91691556e7d",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Оформить заказ",
+      "targets": [
+        ["linkText=Оформить заказ", "linkText"],
+        ["css=.col-md-4 > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Оформить заказ')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'events/cart/add_order.php')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Оформить заказ')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "2bc5505d-bc93-41b3-a565-fd9784bbf33d",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:3000/", "http://localhost:3000/page.php"],
+  "plugins": []
+}
