@@ -275,7 +275,7 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "a4ab04ed-d741-4d1b-8389-9297b269f481",
+      "id": "3c9d7fd5-1492-41fd-a537-acd55d7c3e9a",
       "comment": "",
       "command": "click",
       "target": "css=.navbar-brand > img",

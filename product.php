@@ -3,8 +3,13 @@
     <!-- Отцентрованный блок по вертикали -->
       <div class="row d-flex align-items-center justify-content-center">
         <?php
+        // Проверяем наличие и непустоту параметра product в GET-запросе
         if(isset($_GET['product']) and !empty($_GET['product'])){
+            // Получаем ID продукта из GET-параметра
             $id_product = $_GET['product'];
+            
+            // Формируем SQL-запрос для получения информации о продукте
+            // Запрос объединяет таблицы products, categories, products_subcategories и subcategories
             $products = $database -> query(
                 "SELECT products.id AS id,
                         products.name AS product_name,
@@ -19,6 +24,8 @@
                 JOIN subcategories ON products_subcategories.id_subcategory = subcategories.id
                 WHERE products.id = $id_product"
               );
+            
+            // Получаем первую строку результата запроса в виде ассоциативного массива
             $product = mysqli_fetch_assoc($products);
         ?>
         <!-- Блок с картинкой товара -->
