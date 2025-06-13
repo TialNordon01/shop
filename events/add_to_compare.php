@@ -1,18 +1,19 @@
 <?php
+    // Добавление товара в список сравнения
     session_start();
 
-    // Инициализация массива сравнения, если его нет
+    // Инициализация массива сравнения, если не существует
     if (!isset($_SESSION['compare'])) {
         $_SESSION['compare'] = [];
     }
 
-    // Максимальное количество товаров для сравнения
+    // Ограничение максимального количества сравниваемых товаров
     $max_compare = 4;
 
-    // Получаем ID товара
+    // Получение ID добавляемого товара из GET-параметра
     $product_id = isset($_GET['product']) ? (int)$_GET['product'] : 0;
 
-    // Проверяем, не добавлен ли уже товар
+    // Проверка наличия товара в списке сравнения
     if (in_array($product_id, $_SESSION['compare'])) {
         $_SESSION['message_compare'] = 'Товар уже добавлен для сравнения';
     } elseif (count($_SESSION['compare']) >= $max_compare) {
@@ -23,7 +24,7 @@
         unset($_SESSION['message_compare']);
     }
 
-    //Перенаправляем на предыдущую страничку
+    // Перенаправление на предыдущую страницу
     $redirect = $_SERVER['HTTP_REFERER'];
     header("Location: $redirect");
     exit(); 

@@ -1,10 +1,11 @@
 <?php
+    // Удаление товара из списка сравнения
     session_start();
 
-    // Получаем ID товара
+    // Получение ID удаляемого товара из GET-параметра
     $product_id = isset($_GET['product']) ? (int)$_GET['product'] : 0;
 
-    // Удаляем товар из массива сравнения
+    // Удаление товара из массива сравнения по ID
     if (isset($_SESSION['compare'])) {
         $key = array_search($product_id, $_SESSION['compare']);
         if ($key !== false) {
@@ -16,7 +17,7 @@
         }
     }
 
-    //Перенаправляем на предыдущую страничку
+    // Перенаправление на предыдущую страницу
     $redirect = $_SERVER['HTTP_REFERER'];
     header("Location: $redirect");
     exit(); 
