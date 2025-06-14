@@ -39,7 +39,7 @@
             "email" => $user['email'],
             "is_admin" => $user['is_admin']
         ];
-        //Переход в кабинет админа или пользователя в зависимости от роли (пока нет)
+        //Переход в кабинет админа или пользователя в зависимости от роли
         if($_SESSION['user']['is_admin']==0){
             header("Location: ../../page.php?page=account");
         } else {
